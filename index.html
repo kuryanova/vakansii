@@ -1,0 +1,2371 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дизайн-трекер: вакансии и тестовые</title>
+
+<!-- ===== ШРИФТЫ ===== -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   ПЕРЕМЕННЫЕ - палитра Notion Dark
+   ========================================================= */
+:root {
+  /* Фон */
+  --bg-primary: #191919;
+  --bg-secondary: #202020;
+  --bg-tertiary: #2a2a2a;
+  --bg-hover: #2f2f2f;
+  --bg-card: #202020;
+
+  /* Границы */
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.13);
+
+  /* Текст */
+  --text-primary: #ffffff;
+  --text-secondary: #9b9a97;
+  --text-tertiary: #6f6e69;
+
+  /* Акценты Notion */
+  --accent-blue: #529cca;
+  --accent-blue-bg: rgba(82, 156, 202, 0.15);
+  --accent-green: #4dab9a;
+  --accent-green-bg: rgba(77, 171, 154, 0.15);
+  --accent-yellow: #ffdc49;
+  --accent-yellow-bg: rgba(255, 220, 73, 0.15);
+  --accent-orange: #ffa344;
+  --accent-orange-bg: rgba(255, 163, 68, 0.15);
+  --accent-red: #ff7369;
+  --accent-red-bg: rgba(255, 115, 105, 0.15);
+  --accent-purple: #9a6dd7;
+  --accent-purple-bg: rgba(154, 109, 215, 0.15);
+  --accent-pink: #e255a1;
+  --accent-pink-bg: rgba(226, 85, 161, 0.15);
+  --accent-gray: #979a9b;
+  --accent-gray-bg: rgba(151, 154, 155, 0.15);
+
+  /* Радиусы */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+
+  /* Тени */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
+
+  /* Переходы */
+  --transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* =========================================================
+   БАЗОВЫЕ СТИЛИ
+   ========================================================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+button {
+  font-family: inherit;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: inherit;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  outline: none;
+  transition: border-color var(--transition);
+  width: 100%;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent-blue);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 70px;
+  font-family: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bg-hover);
+}
+
+/* =========================================================
+   КОМПОНОВКА
+   ========================================================= */
+.app {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+/* Шапка */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.header-logo {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.header h1 {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.header-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition);
+  border: 1px solid var(--border);
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-strong);
+}
+
+.btn-primary {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border-color: var(--text-primary);
+}
+
+.btn-primary:hover {
+  background: #e0e0e0;
+  border-color: #e0e0e0;
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: transparent;
+}
+
+.btn-ghost:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--border);
+}
+
+.btn-danger {
+  color: var(--accent-red);
+}
+
+.btn-danger:hover {
+  background: var(--accent-red-bg);
+  border-color: var(--accent-red-bg);
+}
+
+/* Главные табы */
+.main-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 28px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.main-tabs::-webkit-scrollbar { display: none; }
+
+.main-tab {
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.main-tab:hover {
+  color: var(--text-primary);
+}
+
+.main-tab.active {
+  color: var(--text-primary);
+  border-bottom-color: var(--text-primary);
+}
+
+/* Сетка контента */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+}
+
+@media (max-width: 980px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   СТАТИСТИКА - боковая панель
+   ========================================================= */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+}
+
+.stat-card-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+}
+
+.stat-row + .stat-row {
+  border-top: 1px solid var(--border);
+}
+
+.stat-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.stat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.stat-value {
+  font-weight: 600;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-big {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-big-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.stat-mini {
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+  padding: 12px;
+}
+
+.stat-mini-value {
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-mini-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* =========================================================
+   ПАНЕЛЬ ИНСТРУМЕНТОВ
+   ========================================================= */
+.toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 200px;
+  position: relative;
+}
+
+.search-box input {
+  padding-left: 36px;
+}
+
+.search-box::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  transform: translateY(-50%);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239b9a97' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>");
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* Подтабы - фильтр по статусу */
+.subtabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.subtab {
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1px solid transparent;
+  transition: all var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.subtab:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.subtab.active {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+.subtab-count {
+  background: var(--bg-primary);
+  border-radius: 10px;
+  padding: 1px 7px;
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* =========================================================
+   КАРТОЧКИ
+   ========================================================= */
+.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color var(--transition);
+}
+
+.card:hover {
+  border-color: var(--border-strong);
+}
+
+.card-header {
+  padding: 16px 18px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.card-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.card-company {
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.card-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.card-actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.icon-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: all var(--transition);
+}
+
+.icon-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.icon-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Статусные значки */
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-tag .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+/* Раскрытие */
+.card-body {
+  display: none;
+  padding: 0 18px 18px;
+  border-top: 1px solid var(--border);
+}
+
+.card.expanded .card-body {
+  display: block;
+  padding-top: 16px;
+}
+
+.card-section {
+  margin-bottom: 18px;
+}
+
+.card-section:last-child {
+  margin-bottom: 0;
+}
+
+.card-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.card-text {
+  font-size: 13px;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  line-height: 1.55;
+}
+
+.card-text-secondary {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Прогресс-бар */
+.progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.progress {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-tertiary);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+  border-radius: 3px;
+  transition: width 300ms ease;
+}
+
+.progress-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  min-width: 38px;
+  text-align: right;
+}
+
+/* Чекбоксы - этапы тестового */
+.steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.step-item:hover {
+  background: var(--bg-tertiary);
+}
+
+.step-checkbox {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition);
+}
+
+.step-item.done .step-checkbox {
+  background: var(--accent-green);
+  border-color: var(--accent-green);
+}
+
+.step-item.done .step-checkbox::after {
+  content: '';
+  width: 8px;
+  height: 5px;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+
+.step-label {
+  font-size: 13px;
+  flex: 1;
+}
+
+.step-item.done .step-label {
+  color: var(--text-tertiary);
+  text-decoration: line-through;
+}
+
+/* Ссылки на материалы */
+.links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.link-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+}
+
+.link-item a {
+  color: var(--accent-blue);
+  text-decoration: none;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link-item a:hover {
+  text-decoration: underline;
+}
+
+.link-remove {
+  color: var(--text-tertiary);
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+}
+
+.link-remove:hover {
+  background: var(--accent-red-bg);
+  color: var(--accent-red);
+}
+
+.add-link-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.add-link-row input {
+  flex: 1;
+}
+
+/* Дедлайн-индикатор */
+.deadline-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.deadline-soon {
+  background: var(--accent-orange-bg);
+  color: var(--accent-orange);
+}
+
+.deadline-overdue {
+  background: var(--accent-red-bg);
+  color: var(--accent-red);
+}
+
+.deadline-ok {
+  background: var(--accent-green-bg);
+  color: var(--accent-green);
+}
+
+/* =========================================================
+   ПУСТОЕ СОСТОЯНИЕ
+   ========================================================= */
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+}
+
+.empty-title {
+  font-size: 16px;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.empty-text {
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+/* =========================================================
+   МОДАЛЬНОЕ ОКНО
+   ========================================================= */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+  animation: fadeIn 200ms ease;
+}
+
+.modal-backdrop.active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.modal-title {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-grid .full {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 560px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+/* =========================================================
+   УВЕДОМЛЕНИЯ (тосты)
+   ========================================================= */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 200;
+  max-width: 320px;
+}
+
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.toast.success { border-left: 3px solid var(--accent-green); }
+.toast.error { border-left: 3px solid var(--accent-red); }
+.toast.info { border-left: 3px solid var(--accent-blue); }
+
+/* =========================================================
+   ИКОНКИ
+   ========================================================= */
+.icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   АДАПТИВ
+   ========================================================= */
+@media (max-width: 640px) {
+  .app {
+    padding: 20px 14px 60px;
+  }
+
+  .header {
+    margin-bottom: 24px;
+  }
+
+  .header h1 {
+    font-size: 18px;
+  }
+
+  .stat-big {
+    font-size: 24px;
+  }
+
+  .card-header {
+    padding: 14px;
+  }
+
+  .card-body {
+    padding: 0 14px 14px;
+  }
+
+  .modal {
+    padding: 20px;
+  }
+}
+
+/* Скрытие */
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ===== ШАПКА ===== -->
+  <header class="header">
+    <div class="header-title">
+      <div class="header-logo">Д</div>
+      <div>
+        <h1>Дизайн-трекер</h1>
+        <div class="header-subtitle">Вакансии и тестовые задания</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-ghost" id="btn-import" title="Импорт JSON">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Импорт
+      </button>
+      <button class="btn btn-ghost" id="btn-export" title="Экспорт JSON">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Экспорт
+      </button>
+      <button class="btn btn-primary" id="btn-add">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Добавить
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== ГЛАВНЫЕ ТАБЫ ===== -->
+  <nav class="main-tabs">
+    <button class="main-tab active" data-tab="vacancies">Вакансии</button>
+    <button class="main-tab" data-tab="tests">Тестовые задания</button>
+  </nav>
+
+  <!-- ===== КОНТЕНТ ===== -->
+  <div class="content-grid">
+    <main>
+      <!-- Поиск -->
+      <div class="toolbar">
+        <div class="search-box">
+          <input type="text" id="search-input" placeholder="Поиск по компании или должности">
+        </div>
+      </div>
+
+      <!-- Подтабы - фильтр по статусу -->
+      <div class="subtabs" id="subtabs"></div>
+
+      <!-- Список карточек -->
+      <div class="cards-list" id="cards-list"></div>
+    </main>
+
+    <!-- Боковая статистика -->
+    <aside class="sidebar" id="sidebar"></aside>
+  </div>
+
+</div>
+
+<!-- ===== МОДАЛЬНОЕ ОКНО ===== -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal" id="modal"></div>
+</div>
+
+<!-- ===== СКРЫТЫЙ INPUT ДЛЯ ИМПОРТА ===== -->
+<input type="file" id="file-input" accept="application/json" style="display:none">
+
+<!-- ===== ТОСТ ===== -->
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+/* =================================================================
+   FIREBASE: вход через Google и синхронизация между устройствами
+   ================================================================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyAqkeTAshI05gcvQSogeXsc7PP7_BQtqEk",
+  authDomain: "trenirovki-70f2a.firebaseapp.com",
+  projectId: "trenirovki-70f2a",
+  storageBucket: "trenirovki-70f2a.firebasestorage.app",
+  messagingSenderId: "197905713652",
+  appId: "1:197905713652:web:a21dbaa1b9d023b10311a1",
+  measurementId: "G-4TSDSDL98F"
+};
+
+const ALLOWED_EMAIL = "olesyakuruanovva@gmail.com";
+const FIREBASE_TRACKER_NAME = "jobs";
+
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
+const provider = new GoogleAuthProvider();
+
+let currentUser = null;
+
+function getTrackerDocRef() {
+  if (!currentUser) throw new Error("Пользователь не авторизован");
+  return doc(db, "users", currentUser.uid, "trackers", FIREBASE_TRACKER_NAME);
+}
+
+function getAuthGate() {
+  let gate = document.getElementById("firebaseAuthGate");
+  if (gate) return gate;
+
+  gate = document.createElement("div");
+  gate.id = "firebaseAuthGate";
+  gate.style.cssText = `
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: var(--bg-primary, #191919);
+    color: var(--text-primary, #fff);
+  `;
+  gate.innerHTML = `
+    <div style="
+      width: min(720px, 100%);
+      background: var(--bg-card, #202020);
+      border: 1px solid var(--border-strong, rgba(255,255,255,.13));
+      border-radius: 18px;
+      padding: 42px;
+      box-shadow: var(--shadow-lg, 0 12px 32px rgba(0,0,0,.5));
+    ">
+      <h1 style="font-size: 36px; line-height: 1.15; margin-bottom: 16px; letter-spacing: -0.03em;">
+        Вход в трекер откликов
+      </h1>
+      <p style="color: var(--text-secondary, #9b9a97); font-size: 18px; line-height: 1.6; margin-bottom: 24px;">
+        Войди через свой Google-аккаунт, чтобы загрузить данные из Firebase и синхронизировать их между устройствами.
+      </p>
+      <p id="firebaseAuthError" style="display:none; color: var(--accent-red, #ff7369); margin-bottom: 18px; line-height: 1.5;"></p>
+      <button id="firebaseLoginBtn" type="button" style="
+        width: 100%;
+        padding: 15px 18px;
+        border-radius: 10px;
+        border: 0;
+        background: #ffffff;
+        color: #191919;
+        font-size: 17px;
+        font-weight: 700;
+        cursor: pointer;
+      ">Войти через Google</button>
+    </div>
+  `;
+  document.body.appendChild(gate);
+  document.getElementById("firebaseLoginBtn").addEventListener("click", async () => {
+    const errorEl = document.getElementById("firebaseAuthError");
+    errorEl.style.display = "none";
+    errorEl.textContent = "";
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      errorEl.textContent = "Не удалось войти через Google: " + error.message;
+      errorEl.style.display = "block";
+    }
+  });
+  return gate;
+}
+
+function showAuthGate(message = "") {
+  const app = document.querySelector(".app");
+  if (app) app.style.display = "none";
+
+  const gate = getAuthGate();
+  gate.style.display = "flex";
+
+  const errorEl = document.getElementById("firebaseAuthError");
+  if (message) {
+    errorEl.textContent = message;
+    errorEl.style.display = "block";
+  } else {
+    errorEl.textContent = "";
+    errorEl.style.display = "none";
+  }
+}
+
+function hideAuthGate() {
+  const gate = document.getElementById("firebaseAuthGate");
+  if (gate) gate.style.display = "none";
+
+  const app = document.querySelector(".app");
+  if (app) app.style.display = "";
+}
+
+async function handleUnauthorizedUser(user) {
+  await signOut(auth);
+  showAuthGate(`Доступ закрыт. Этот трекер доступен только для ${ALLOWED_EMAIL}. Сейчас выбран аккаунт: ${user.email || "без email"}.`);
+}
+
+function startFirebaseAuth() {
+  showAuthGate();
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      currentUser = null;
+      showAuthGate();
+      return;
+    }
+
+    if (user.email !== ALLOWED_EMAIL) {
+      currentUser = null;
+      await handleUnauthorizedUser(user);
+      return;
+    }
+
+    currentUser = user;
+    hideAuthGate();
+
+    try {
+      await init();
+      toast("Firebase подключен", "success");
+    } catch (error) {
+      console.error(error);
+      toast("Ошибка загрузки Firebase: " + error.message, "error");
+    }
+  });
+}
+
+/* =================================================================
+   ДЕМО-ДАННЫЕ - замени или удали для пустого старта
+   ================================================================= */
+const DEMO_DATA = {
+  vacancies: [
+    {
+      id: 'v1',
+      company: 'Яндекс',
+      position: 'Senior Product Designer',
+      salary: '300 000 - 400 000 ₽',
+      link: 'https://yandex.ru/jobs',
+      location: 'Москва / удаленка',
+      status: 'response_sent',
+      responseDate: '2026-05-18',
+      testDeadline: '',
+      notes: 'Команда поиска. Откликнулась через рекомендацию Кати. Жду ответа HR.',
+      createdAt: 1716000000000
+    },
+    {
+      id: 'v2',
+      company: 'Тинькофф',
+      position: 'Product Designer (B2B)',
+      salary: '280 000 ₽',
+      link: 'https://tbank.ru/career',
+      location: 'удаленка',
+      status: 'test_task',
+      responseDate: '2026-05-14',
+      testDeadline: '2026-05-26',
+      notes: 'Интересный продукт для бизнеса. Тестовое - кейс по онбордингу.',
+      createdAt: 1715900000000
+    },
+    {
+      id: 'v3',
+      company: 'Авито',
+      position: 'Product Designer',
+      salary: '250 000 - 320 000 ₽',
+      link: 'https://avito.ru/career',
+      location: 'Москва / гибрид',
+      status: 'interview',
+      responseDate: '2026-05-08',
+      testDeadline: '',
+      notes: 'Прошла техническое. Следующий этап - финальное с командой.',
+      createdAt: 1715600000000
+    },
+    {
+      id: 'v4',
+      company: 'Озон',
+      position: 'Senior UX Designer',
+      salary: '290 000 ₽',
+      link: 'https://ozon.ru/job',
+      location: 'удаленка',
+      status: 'want_to_apply',
+      responseDate: '',
+      testDeadline: '',
+      notes: 'Подготовить кейс по дашборду перед откликом.',
+      createdAt: 1716100000000
+    },
+    {
+      id: 'v5',
+      company: 'Wildberries',
+      position: 'Product Designer',
+      salary: '230 000 ₽',
+      link: 'https://wildberries.ru/career',
+      location: 'Москва',
+      status: 'rejected',
+      responseDate: '2026-04-22',
+      testDeadline: '',
+      notes: 'Не подошел уровень. Дали обратную связь - мало B2B-опыта.',
+      createdAt: 1714900000000
+    }
+  ],
+  tests: [
+    {
+      id: 't1',
+      company: 'Тинькофф',
+      task: 'Спроектировать онбординг для нового пользователя B2B-сервиса',
+      vacancyLink: 'https://tbank.ru/career',
+      deadline: '2026-05-26',
+      status: 'in_progress',
+      steps: {
+        read: true,
+        refs: true,
+        structure: true,
+        design: false,
+        review: false,
+        send: false
+      },
+      important: 'Показать понимание B2B-контекста, заботу о новом пользователе и системное мышление в структуре экранов.',
+      weakness: 'Мало времени на исследование реальных пользователей. Делаю на гипотезах.',
+      finalComment: '',
+      attachments: [
+        { label: 'Figma - рабочий файл', url: 'https://figma.com/file/example' }
+      ],
+      createdAt: 1715900000000
+    },
+    {
+      id: 't2',
+      company: 'Авито',
+      task: 'Редизайн карточки объявления для мобильного веба',
+      vacancyLink: 'https://avito.ru/career',
+      deadline: '2026-05-12',
+      status: 'done',
+      steps: {
+        read: true,
+        refs: true,
+        structure: true,
+        design: true,
+        review: true,
+        send: true
+      },
+      important: 'Аккуратная типографика, плотность инфо и визуальная иерархия.',
+      weakness: 'Не успела протестировать с реальными пользователями.',
+      finalComment: 'Спасибо за интересную задачу. Сделала акцент на скорости восприятия информации и удобстве на маленьком экране.',
+      attachments: [
+        { label: 'Behance - итоговый кейс', url: 'https://behance.net/example' },
+        { label: 'PDF презентация', url: 'https://example.com/test.pdf' }
+      ],
+      createdAt: 1715200000000
+    }
+  ]
+};
+
+/* =================================================================
+   КОНСТАНТЫ - статусы и этапы
+   ================================================================= */
+
+// Статусы вакансий
+const VACANCY_STATUSES = {
+  want_to_apply:  { label: 'Хочу откликнуться', color: 'gray' },
+  response_sent:  { label: 'Отклик отправлен',  color: 'blue' },
+  test_task:      { label: 'Тестовое',          color: 'purple' },
+  interview:      { label: 'Собеседование',     color: 'yellow' },
+  offer:          { label: 'Оффер',             color: 'green' },
+  rejected:       { label: 'Отказ',             color: 'red' }
+};
+
+// Статусы тестовых
+const TEST_STATUSES = {
+  not_started: { label: 'Не начато',  color: 'gray' },
+  in_progress: { label: 'В работе',   color: 'blue' },
+  review:      { label: 'На проверке',color: 'yellow' },
+  sent:        { label: 'Отправлено', color: 'purple' },
+  done:        { label: 'Готово',     color: 'green' }
+};
+
+// Этапы выполнения тестового
+const TEST_STEPS = [
+  { key: 'read',      label: 'Прочитать ТЗ' },
+  { key: 'refs',      label: 'Собрать референсы' },
+  { key: 'structure', label: 'Сделать структуру' },
+  { key: 'design',    label: 'Дизайн' },
+  { key: 'review',    label: 'Проверить' },
+  { key: 'send',      label: 'Отправить' }
+];
+
+/* =================================================================
+   ХРАНИЛИЩЕ: Firebase + резервная копия в localStorage
+   ================================================================= */
+const STORAGE_KEY = 'design-tracker-v1';
+
+let state = {
+  vacancies: [],
+  tests: [],
+  activeTab: 'vacancies',
+  activeFilter: 'all',
+  searchQuery: ''
+};
+
+function normalizePayload(payload) {
+  return {
+    vacancies: Array.isArray(payload?.vacancies) ? payload.vacancies : [],
+    tests: Array.isArray(payload?.tests) ? payload.tests : []
+  };
+}
+
+async function loadData() {
+  // 1) Firebase: основной источник данных между устройствами
+  if (currentUser) {
+    try {
+      const snap = await getDoc(getTrackerDocRef());
+      if (snap.exists()) {
+        const cloudPayload = normalizePayload(snap.data().data || {});
+        state.vacancies = cloudPayload.vacancies;
+        state.tests = cloudPayload.tests;
+
+        // Держим локальную копию на случай временных проблем с интернетом.
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(cloudPayload));
+        return;
+      }
+    } catch (error) {
+      console.warn('Ошибка чтения Firestore, пробуем localStorage', error);
+      toast('Не удалось загрузить Firebase, открыта локальная копия', 'error');
+    }
+  }
+
+  // 2) localStorage: резервная копия
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = normalizePayload(JSON.parse(raw));
+      state.vacancies = parsed.vacancies;
+      state.tests = parsed.tests;
+      return;
+    }
+  } catch (e) {
+    console.warn('Ошибка чтения localStorage', e);
+  }
+
+  // 3) демо-данные при первом запуске
+  state.vacancies = JSON.parse(JSON.stringify(DEMO_DATA.vacancies));
+  state.tests = JSON.parse(JSON.stringify(DEMO_DATA.tests));
+}
+
+async function saveData() {
+  const payload = normalizePayload({
+    vacancies: state.vacancies,
+    tests: state.tests
+  });
+
+  // Резервная локальная копия
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  } catch (e) {
+    console.warn('Ошибка записи localStorage', e);
+  }
+
+  // Основное сохранение в Firebase
+  if (!currentUser) {
+    toast('Сначала войди через Google', 'error');
+    return;
+  }
+
+  try {
+    await setDoc(getTrackerDocRef(), {
+      data: payload,
+      ownerEmail: currentUser.email,
+      updatedAt: new Date().toISOString()
+    }, { merge: true });
+  } catch (error) {
+    console.error('Ошибка записи Firestore', error);
+    toast('Не удалось сохранить в Firebase. Локальная копия сохранена.', 'error');
+  }
+}
+
+/* =================================================================
+   УТИЛИТЫ
+   ================================================================= */
+function uid() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+}
+
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function formatDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (isNaN(d)) return iso;
+  const months = ['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
+  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function daysUntil(iso) {
+  if (!iso) return null;
+  const target = new Date(iso);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  target.setHours(0, 0, 0, 0);
+  return Math.round((target - today) / (1000 * 60 * 60 * 24));
+}
+
+function parseSalary(str) {
+  // Извлекает число для расчета средней зарплаты
+  if (!str) return null;
+  const numbers = String(str).replace(/\s/g, '').match(/\d+/g);
+  if (!numbers || numbers.length === 0) return null;
+  const nums = numbers.map(Number);
+  // Если диапазон - берем среднее
+  return nums.reduce((a, b) => a + b, 0) / nums.length;
+}
+
+function formatMoney(n) {
+  if (n == null) return 'нет данных';
+  return Math.round(n).toLocaleString('ru-RU') + ' ₽';
+}
+
+/* =================================================================
+   ТОСТ-УВЕДОМЛЕНИЯ
+   ================================================================= */
+function toast(message, type = 'info') {
+  const el = document.getElementById('toast');
+  el.textContent = message;
+  el.className = 'toast show ' + type;
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => {
+    el.className = 'toast ' + type;
+  }, 2500);
+}
+
+/* =================================================================
+   РЕНДЕР: ПОДТАБЫ (фильтры по статусу)
+   ================================================================= */
+function renderSubtabs() {
+  const container = document.getElementById('subtabs');
+  const statuses = state.activeTab === 'vacancies' ? VACANCY_STATUSES : TEST_STATUSES;
+  const items = state.activeTab === 'vacancies' ? state.vacancies : state.tests;
+
+  // Подсчет по статусам
+  const counts = { all: items.length };
+  Object.keys(statuses).forEach(k => counts[k] = 0);
+  items.forEach(it => {
+    if (counts[it.status] != null) counts[it.status]++;
+  });
+
+  let html = `
+    <button class="subtab ${state.activeFilter === 'all' ? 'active' : ''}" data-filter="all">
+      Все <span class="subtab-count">${counts.all}</span>
+    </button>
+  `;
+
+  Object.entries(statuses).forEach(([key, def]) => {
+    if (counts[key] === 0) return; // не показываем пустые статусы
+    html += `
+      <button class="subtab ${state.activeFilter === key ? 'active' : ''}" data-filter="${key}">
+        <span class="stat-dot" style="background: var(--accent-${def.color})"></span>
+        ${def.label}
+        <span class="subtab-count">${counts[key]}</span>
+      </button>
+    `;
+  });
+
+  container.innerHTML = html;
+
+  container.querySelectorAll('.subtab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.activeFilter = btn.dataset.filter;
+      renderSubtabs();
+      renderCards();
+    });
+  });
+}
+
+/* =================================================================
+   РЕНДЕР: КАРТОЧКИ
+   ================================================================= */
+function getFilteredItems() {
+  const items = state.activeTab === 'vacancies' ? state.vacancies : state.tests;
+  const q = state.searchQuery.trim().toLowerCase();
+
+  return items.filter(it => {
+    // фильтр по статусу
+    if (state.activeFilter !== 'all' && it.status !== state.activeFilter) return false;
+    // поиск
+    if (q) {
+      const haystack = [it.company, it.position, it.task].filter(Boolean).join(' ').toLowerCase();
+      if (!haystack.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function renderCards() {
+  const list = document.getElementById('cards-list');
+  const items = getFilteredItems();
+
+  if (items.length === 0) {
+    list.innerHTML = `
+      <div class="empty">
+        <div class="empty-title">Пока ничего нет</div>
+        <div class="empty-text">Добавь первую запись кнопкой выше</div>
+      </div>
+    `;
+    return;
+  }
+
+  if (state.activeTab === 'vacancies') {
+    list.innerHTML = items.map(renderVacancyCard).join('');
+  } else {
+    list.innerHTML = items.map(renderTestCard).join('');
+  }
+
+  attachCardEvents();
+}
+
+/* ---------- Карточка вакансии ---------- */
+function renderVacancyCard(v) {
+  const status = VACANCY_STATUSES[v.status] || VACANCY_STATUSES.want_to_apply;
+
+  let deadlineBadge = '';
+  if (v.testDeadline) {
+    const days = daysUntil(v.testDeadline);
+    if (days < 0) {
+      deadlineBadge = `<span class="deadline-badge deadline-overdue">Просрочено на ${Math.abs(days)} дн.</span>`;
+    } else if (days <= 3) {
+      deadlineBadge = `<span class="deadline-badge deadline-soon">${days === 0 ? 'Сегодня' : 'Через ' + days + ' дн.'}</span>`;
+    } else {
+      deadlineBadge = `<span class="deadline-badge deadline-ok">Через ${days} дн.</span>`;
+    }
+  }
+
+  return `
+    <article class="card" data-id="${v.id}">
+      <header class="card-header" data-toggle>
+        <div class="card-main">
+          <div class="card-title-row">
+            <span class="card-title">${escapeHtml(v.company)}</span>
+            <span class="card-company">${escapeHtml(v.position)}</span>
+            <span class="status-tag" style="background: var(--accent-${status.color}-bg); color: var(--accent-${status.color})">
+              <span class="dot" style="background: var(--accent-${status.color})"></span>
+              ${status.label}
+            </span>
+          </div>
+          <div class="card-meta">
+            ${v.salary ? `<span class="card-meta-item">${escapeHtml(v.salary)}</span>` : ''}
+            ${v.location ? `<span class="card-meta-item">${escapeHtml(v.location)}</span>` : ''}
+            ${v.responseDate ? `<span class="card-meta-item">Отклик: ${formatDate(v.responseDate)}</span>` : ''}
+            ${deadlineBadge}
+          </div>
+        </div>
+        <div class="card-actions" data-stop>
+          ${v.link ? `<a href="${escapeHtml(v.link)}" target="_blank" rel="noopener" class="icon-btn" title="Открыть вакансию">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>` : ''}
+          <button class="icon-btn" data-action="edit" title="Редактировать">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button class="icon-btn" data-action="delete" title="Удалить">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+          </button>
+        </div>
+      </header>
+      <div class="card-body">
+        ${v.notes ? `
+          <div class="card-section">
+            <div class="card-section-title">Заметки</div>
+            <div class="card-text">${escapeHtml(v.notes)}</div>
+          </div>
+        ` : `<div class="card-section"><div class="card-text card-text-secondary">Заметок пока нет</div></div>`}
+
+        <div class="card-section">
+          <div class="card-section-title">Смена статуса</div>
+          <select data-action="change-status">
+            ${Object.entries(VACANCY_STATUSES).map(([k, def]) =>
+              `<option value="${k}" ${k === v.status ? 'selected' : ''}>${def.label}</option>`
+            ).join('')}
+          </select>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+/* ---------- Карточка тестового ---------- */
+function renderTestCard(t) {
+  const status = TEST_STATUSES[t.status] || TEST_STATUSES.not_started;
+  const steps = t.steps || {};
+  const doneCount = TEST_STEPS.filter(s => steps[s.key]).length;
+  const totalCount = TEST_STEPS.length;
+  const percent = Math.round((doneCount / totalCount) * 100);
+
+  let deadlineBadge = '';
+  if (t.deadline) {
+    const days = daysUntil(t.deadline);
+    if (days < 0) {
+      deadlineBadge = `<span class="deadline-badge deadline-overdue">Просрочено</span>`;
+    } else if (days <= 2) {
+      deadlineBadge = `<span class="deadline-badge deadline-soon">${days === 0 ? 'Сегодня' : 'Завтра'}</span>`;
+    } else if (days <= 5) {
+      deadlineBadge = `<span class="deadline-badge deadline-soon">Через ${days} дн.</span>`;
+    } else {
+      deadlineBadge = `<span class="deadline-badge deadline-ok">Через ${days} дн.</span>`;
+    }
+  }
+
+  return `
+    <article class="card" data-id="${t.id}">
+      <header class="card-header" data-toggle>
+        <div class="card-main">
+          <div class="card-title-row">
+            <span class="card-title">${escapeHtml(t.company)}</span>
+            <span class="status-tag" style="background: var(--accent-${status.color}-bg); color: var(--accent-${status.color})">
+              <span class="dot" style="background: var(--accent-${status.color})"></span>
+              ${status.label}
+            </span>
+          </div>
+          <div class="card-meta">
+            <span class="card-meta-item">${escapeHtml(t.task || 'без описания')}</span>
+            ${t.deadline ? `<span class="card-meta-item">Дедлайн: ${formatDate(t.deadline)}</span>` : ''}
+            ${deadlineBadge}
+          </div>
+          <div class="progress-wrap" style="margin-top: 12px; max-width: 260px;">
+            <div class="progress"><div class="progress-bar" style="width: ${percent}%"></div></div>
+            <div class="progress-text">${doneCount}/${totalCount}</div>
+          </div>
+        </div>
+        <div class="card-actions" data-stop>
+          ${t.vacancyLink ? `<a href="${escapeHtml(t.vacancyLink)}" target="_blank" rel="noopener" class="icon-btn" title="Открыть вакансию">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>` : ''}
+          <button class="icon-btn" data-action="edit" title="Редактировать">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button class="icon-btn" data-action="delete" title="Удалить">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="card-body">
+        <!-- Этапы -->
+        <div class="card-section">
+          <div class="card-section-title">Этапы</div>
+          <div class="steps-list">
+            ${TEST_STEPS.map(s => `
+              <div class="step-item ${steps[s.key] ? 'done' : ''}" data-step="${s.key}">
+                <div class="step-checkbox"></div>
+                <div class="step-label">${s.label}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Что важно показать -->
+        <div class="card-section">
+          <div class="card-section-title">Что важно показать</div>
+          <div class="card-text ${t.important ? '' : 'card-text-secondary'}">${t.important ? escapeHtml(t.important) : 'не заполнено'}</div>
+        </div>
+
+        <!-- Слабые места -->
+        <div class="card-section">
+          <div class="card-section-title">Возможные слабые места</div>
+          <div class="card-text ${t.weakness ? '' : 'card-text-secondary'}">${t.weakness ? escapeHtml(t.weakness) : 'не заполнено'}</div>
+        </div>
+
+        <!-- Финальный комментарий -->
+        <div class="card-section">
+          <div class="card-section-title">Финальный комментарий работодателю</div>
+          <div class="card-text ${t.finalComment ? '' : 'card-text-secondary'}">${t.finalComment ? escapeHtml(t.finalComment) : 'не заполнено'}</div>
+        </div>
+
+        <!-- Прикрепленные ссылки -->
+        <div class="card-section">
+          <div class="card-section-title">Ссылки на материалы</div>
+          <div class="links-list">
+            ${(t.attachments || []).map((a, i) => `
+              <div class="link-item">
+                <a href="${escapeHtml(a.url)}" target="_blank" rel="noopener">${escapeHtml(a.label || a.url)}</a>
+                <button class="link-remove" data-action="remove-link" data-link-index="${i}">×</button>
+              </div>
+            `).join('')}
+          </div>
+          <div class="add-link-row">
+            <input type="text" placeholder="Название" data-link-label>
+            <input type="url" placeholder="https://..." data-link-url>
+            <button class="btn" data-action="add-link">Добавить</button>
+          </div>
+        </div>
+
+        <!-- Смена статуса -->
+        <div class="card-section">
+          <div class="card-section-title">Смена статуса</div>
+          <select data-action="change-status">
+            ${Object.entries(TEST_STATUSES).map(([k, def]) =>
+              `<option value="${k}" ${k === t.status ? 'selected' : ''}>${def.label}</option>`
+            ).join('')}
+          </select>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+/* ---------- Привязка событий к карточкам ---------- */
+function attachCardEvents() {
+  document.querySelectorAll('.card').forEach(card => {
+    const id = card.dataset.id;
+
+    // Раскрытие
+    const header = card.querySelector('[data-toggle]');
+    header.addEventListener('click', (e) => {
+      if (e.target.closest('[data-stop]')) return;
+      card.classList.toggle('expanded');
+    });
+
+    // Кнопки в заголовке
+    card.querySelectorAll('[data-action]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const action = el.dataset.action;
+
+        if (action === 'edit') {
+          openEditModal(id);
+        } else if (action === 'delete') {
+          deleteItem(id);
+        } else if (action === 'add-link') {
+          const labelInput = card.querySelector('[data-link-label]');
+          const urlInput = card.querySelector('[data-link-url]');
+          addLink(id, labelInput.value.trim(), urlInput.value.trim());
+        } else if (action === 'remove-link') {
+          removeLink(id, parseInt(el.dataset.linkIndex, 10));
+        }
+      });
+    });
+
+    // Селект статуса (без stopPropagation на change, чтобы select работал)
+    const select = card.querySelector('[data-action="change-status"]');
+    if (select) {
+      select.addEventListener('click', e => e.stopPropagation());
+      select.addEventListener('change', (e) => {
+        changeStatus(id, e.target.value);
+      });
+    }
+
+    // Чекбоксы этапов
+    card.querySelectorAll('.step-item').forEach(step => {
+      step.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleStep(id, step.dataset.step);
+      });
+    });
+  });
+}
+
+/* =================================================================
+   ДЕЙСТВИЯ: CRUD
+   ================================================================= */
+function getCollection() {
+  return state.activeTab === 'vacancies' ? state.vacancies : state.tests;
+}
+
+function findItem(id) {
+  return getCollection().find(x => x.id === id);
+}
+
+async function deleteItem(id) {
+  const item = findItem(id);
+  if (!item) return;
+  const name = item.company || 'эту запись';
+  if (!confirm(`Удалить "${name}"?`)) return;
+
+  if (state.activeTab === 'vacancies') {
+    state.vacancies = state.vacancies.filter(v => v.id !== id);
+  } else {
+    state.tests = state.tests.filter(t => t.id !== id);
+  }
+  await saveData();
+  renderAll();
+  toast('Удалено', 'success');
+}
+
+async function changeStatus(id, newStatus) {
+  const item = findItem(id);
+  if (!item) return;
+  item.status = newStatus;
+  await saveData();
+  renderAll();
+}
+
+async function toggleStep(id, stepKey) {
+  const item = findItem(id);
+  if (!item) return;
+  item.steps = item.steps || {};
+  item.steps[stepKey] = !item.steps[stepKey];
+  await saveData();
+  renderAll();
+  // Восстановить раскрытое состояние
+  const card = document.querySelector(`.card[data-id="${id}"]`);
+  if (card) card.classList.add('expanded');
+}
+
+async function addLink(id, label, url) {
+  if (!url) {
+    toast('Введи URL', 'error');
+    return;
+  }
+  const item = findItem(id);
+  if (!item) return;
+  item.attachments = item.attachments || [];
+  item.attachments.push({ label: label || url, url });
+  await saveData();
+  renderAll();
+  const card = document.querySelector(`.card[data-id="${id}"]`);
+  if (card) card.classList.add('expanded');
+}
+
+async function removeLink(id, idx) {
+  const item = findItem(id);
+  if (!item || !item.attachments) return;
+  item.attachments.splice(idx, 1);
+  await saveData();
+  renderAll();
+  const card = document.querySelector(`.card[data-id="${id}"]`);
+  if (card) card.classList.add('expanded');
+}
+
+/* =================================================================
+   МОДАЛЬНОЕ ОКНО: ДОБАВЛЕНИЕ И РЕДАКТИРОВАНИЕ
+   ================================================================= */
+const modalBackdrop = document.getElementById('modal-backdrop');
+const modalEl = document.getElementById('modal');
+
+function closeModal() {
+  modalBackdrop.classList.remove('active');
+}
+
+modalBackdrop.addEventListener('click', (e) => {
+  if (e.target === modalBackdrop) closeModal();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
+function openAddModal() {
+  if (state.activeTab === 'vacancies') {
+    openVacancyForm(null);
+  } else {
+    openTestForm(null);
+  }
+}
+
+function openEditModal(id) {
+  const item = findItem(id);
+  if (!item) return;
+  if (state.activeTab === 'vacancies') {
+    openVacancyForm(item);
+  } else {
+    openTestForm(item);
+  }
+}
+
+/* ---------- Форма вакансии ---------- */
+function openVacancyForm(v) {
+  const isEdit = !!v;
+  modalEl.innerHTML = `
+    <div class="modal-header">
+      <div class="modal-title">${isEdit ? 'Редактировать вакансию' : 'Новая вакансия'}</div>
+      <button class="icon-btn" id="modal-close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <form id="vacancy-form" class="form-grid">
+      <div class="form-field">
+        <label class="form-label">Компания *</label>
+        <input type="text" name="company" required value="${isEdit ? escapeHtml(v.company) : ''}">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Должность *</label>
+        <input type="text" name="position" required value="${isEdit ? escapeHtml(v.position) : ''}">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Зарплата</label>
+        <input type="text" name="salary" placeholder="например, 250 000 ₽" value="${isEdit ? escapeHtml(v.salary || '') : ''}">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Город / удаленка</label>
+        <input type="text" name="location" placeholder="Москва / удаленка" value="${isEdit ? escapeHtml(v.location || '') : ''}">
+      </div>
+      <div class="form-field full">
+        <label class="form-label">Ссылка на вакансию</label>
+        <input type="url" name="link" placeholder="https://..." value="${isEdit ? escapeHtml(v.link || '') : ''}">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Статус</label>
+        <select name="status">
+          ${Object.entries(VACANCY_STATUSES).map(([k, def]) =>
+            `<option value="${k}" ${isEdit && v.status === k ? 'selected' : ''}>${def.label}</option>`
+          ).join('')}
+        </select>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Дата отклика</label>
+        <input type="date" name="responseDate" value="${isEdit ? (v.responseDate || '') : ''}">
+      </div>
+      <div class="form-field full">
+        <label class="form-label">Дедлайн тестового</label>
+        <input type="date" name="testDeadline" value="${isEdit ? (v.testDeadline || '') : ''}">
+      </div>
+      <div class="form-field full">
+        <label class="form-label">Заметки</label>
+        <textarea name="notes" placeholder="контакты, впечатления, что важно учесть">${isEdit ? escapeHtml(v.notes || '') : ''}</textarea>
+      </div>
+
+      <div class="modal-footer full">
+        <button type="button" class="btn btn-ghost" id="modal-cancel">Отмена</button>
+        <button type="submit" class="btn btn-primary">${isEdit ? 'Сохранить' : 'Добавить'}</button>
+      </div>
+    </form>
+  `;
+  modalBackdrop.classList.add('active');
+
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal-cancel').addEventListener('click', closeModal);
+
+  document.getElementById('vacancy-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const data = Object.fromEntries(fd.entries());
+
+    if (isEdit) {
+      Object.assign(v, data);
+    } else {
+      state.vacancies.unshift({
+        id: uid(),
+        createdAt: Date.now(),
+        ...data
+      });
+    }
+    await saveData();
+    renderAll();
+    closeModal();
+    toast(isEdit ? 'Сохранено' : 'Добавлено', 'success');
+  });
+}
+
+/* ---------- Форма тестового ---------- */
+function openTestForm(t) {
+  const isEdit = !!t;
+  modalEl.innerHTML = `
+    <div class="modal-header">
+      <div class="modal-title">${isEdit ? 'Редактировать тестовое' : 'Новое тестовое'}</div>
+      <button class="icon-btn" id="modal-close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <form id="test-form" class="form-grid">
+      <div class="form-field full">
+        <label class="form-label">Компания *</label>
+        <input type="text" name="company" required value="${isEdit ? escapeHtml(t.company) : ''}">
+      </div>
+      <div class="form-field full">
+        <label class="form-label">Задача *</label>
+        <textarea name="task" required>${isEdit ? escapeHtml(t.task || '') : ''}</textarea>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Дедлайн</label>
+        <input type="date" name="deadline" value="${isEdit ? (t.deadline || '') : ''}">
+      </div>
+      <div class="form-field">
+        <label class="form-label">Статус</label>
+        <select name="status">
+          ${Object.entries(TEST_STATUSES).map(([k, def]) =>
+            `<option value="${k}" ${isEdit && t.status === k ? 'selected' : ''}>${def.label}</option>`
+          ).join('')}
+        </select>
+      </div>
+      <div class="form-field full">
+        <label class="form-label">Ссылка на вакансию</label>
+        <input type="url" name="vacancyLink" placeholder="https://..." value="${isEdit ? escapeHtml(t.vacancyLink || '') : ''}">
+      </div>
+      <div class="form-field full">
+        <label class="form-label">Что важно показать</label>
+        <textarea name="important">${isEdit ? escapeHtml(t.important || '') : ''}</textarea>
+      </div>
+      <div class="form-field full">
+        <label class="form-label">Что может быть слабым местом</label>
+        <textarea name="weakness">${isEdit ? escapeHtml(t.weakness || '') : ''}</textarea>
+      </div>
+      <div class="form-field full">
+        <label class="form-label">Финальный комментарий работодателю</label>
+        <textarea name="finalComment">${isEdit ? escapeHtml(t.finalComment || '') : ''}</textarea>
+      </div>
+
+      <div class="modal-footer full">
+        <button type="button" class="btn btn-ghost" id="modal-cancel">Отмена</button>
+        <button type="submit" class="btn btn-primary">${isEdit ? 'Сохранить' : 'Добавить'}</button>
+      </div>
+    </form>
+  `;
+  modalBackdrop.classList.add('active');
+
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal-cancel').addEventListener('click', closeModal);
+
+  document.getElementById('test-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const data = Object.fromEntries(fd.entries());
+
+    if (isEdit) {
+      Object.assign(t, data);
+    } else {
+      state.tests.unshift({
+        id: uid(),
+        createdAt: Date.now(),
+        steps: {},
+        attachments: [],
+        ...data
+      });
+    }
+    await saveData();
+    renderAll();
+    closeModal();
+    toast(isEdit ? 'Сохранено' : 'Добавлено', 'success');
+  });
+}
+
+/* =================================================================
+   СТАТИСТИКА - боковая панель
+   ================================================================= */
+function renderSidebar() {
+  const sidebar = document.getElementById('sidebar');
+
+  if (state.activeTab === 'vacancies') {
+    sidebar.innerHTML = renderVacancyStats();
+  } else {
+    sidebar.innerHTML = renderTestStats();
+  }
+}
+
+function renderVacancyStats() {
+  const items = state.vacancies;
+  const total = items.length;
+
+  // Подсчет по статусам
+  const counts = {};
+  Object.keys(VACANCY_STATUSES).forEach(k => counts[k] = 0);
+  items.forEach(it => {
+    if (counts[it.status] != null) counts[it.status]++;
+  });
+
+  // Средняя зарплата по "интересным" - все, что не отказ
+  const interesting = items.filter(v => v.status !== 'rejected');
+  const salaries = interesting.map(v => parseSalary(v.salary)).filter(n => n != null);
+  const avgSalary = salaries.length > 0 ? salaries.reduce((a, b) => a + b, 0) / salaries.length : null;
+
+  // Конверсия
+  const sent = counts.response_sent + counts.test_task + counts.interview + counts.offer + counts.rejected;
+  const interviews = counts.interview + counts.offer;
+  const conversion = sent > 0 ? Math.round((interviews / sent) * 100) : 0;
+
+  return `
+    <div class="stat-card">
+      <div class="stat-card-title">Общая воронка</div>
+      <div class="stat-big">${total}</div>
+      <div class="stat-big-label">вакансий отслеживается</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card-title">Ключевые метрики</div>
+      <div class="stat-grid">
+        <div class="stat-mini">
+          <div class="stat-mini-value">${sent}</div>
+          <div class="stat-mini-label">откликов</div>
+        </div>
+        <div class="stat-mini">
+          <div class="stat-mini-value">${interviews}</div>
+          <div class="stat-mini-label">собеседований</div>
+        </div>
+        <div class="stat-mini">
+          <div class="stat-mini-value">${counts.rejected}</div>
+          <div class="stat-mini-label">отказов</div>
+        </div>
+        <div class="stat-mini">
+          <div class="stat-mini-value">${conversion}%</div>
+          <div class="stat-mini-label">конверсия</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card-title">По статусам</div>
+      ${Object.entries(VACANCY_STATUSES).map(([k, def]) => `
+        <div class="stat-row">
+          <span class="stat-label">
+            <span class="stat-dot" style="background: var(--accent-${def.color})"></span>
+            ${def.label}
+          </span>
+          <span class="stat-value">${counts[k]}</span>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card-title">Средняя зарплата</div>
+      <div class="stat-big" style="font-size: 22px;">${formatMoney(avgSalary)}</div>
+      <div class="stat-big-label">по интересным вакансиям (${interesting.length})</div>
+    </div>
+  `;
+}
+
+function renderTestStats() {
+  const items = state.tests;
+  const total = items.length;
+
+  const counts = {};
+  Object.keys(TEST_STATUSES).forEach(k => counts[k] = 0);
+  items.forEach(it => {
+    if (counts[it.status] != null) counts[it.status]++;
+  });
+
+  // Средний прогресс
+  let totalProgress = 0;
+  items.forEach(t => {
+    const steps = t.steps || {};
+    const done = TEST_STEPS.filter(s => steps[s.key]).length;
+    totalProgress += done / TEST_STEPS.length;
+  });
+  const avgProgress = total > 0 ? Math.round((totalProgress / total) * 100) : 0;
+
+  // Ближайшие дедлайны
+  const upcoming = items
+    .filter(t => t.deadline && t.status !== 'done' && t.status !== 'sent')
+    .map(t => ({ ...t, days: daysUntil(t.deadline) }))
+    .filter(t => t.days >= -7)
+    .sort((a, b) => a.days - b.days)
+    .slice(0, 4);
+
+  // Просроченные
+  const overdue = items.filter(t => {
+    if (!t.deadline || t.status === 'done' || t.status === 'sent') return false;
+    return daysUntil(t.deadline) < 0;
+  }).length;
+
+  return `
+    <div class="stat-card">
+      <div class="stat-card-title">Тестовых всего</div>
+      <div class="stat-big">${total}</div>
+      <div class="stat-big-label">в работе и выполнено</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card-title">Ключевые метрики</div>
+      <div class="stat-grid">
+        <div class="stat-mini">
+          <div class="stat-mini-value">${counts.in_progress}</div>
+          <div class="stat-mini-label">в работе</div>
+        </div>
+        <div class="stat-mini">
+          <div class="stat-mini-value">${counts.done + counts.sent}</div>
+          <div class="stat-mini-label">завершено</div>
+        </div>
+        <div class="stat-mini">
+          <div class="stat-mini-value">${avgProgress}%</div>
+          <div class="stat-mini-label">средний прогресс</div>
+        </div>
+        <div class="stat-mini">
+          <div class="stat-mini-value" style="color: ${overdue > 0 ? 'var(--accent-red)' : 'inherit'}">${overdue}</div>
+          <div class="stat-mini-label">просрочено</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card-title">По статусам</div>
+      ${Object.entries(TEST_STATUSES).map(([k, def]) => `
+        <div class="stat-row">
+          <span class="stat-label">
+            <span class="stat-dot" style="background: var(--accent-${def.color})"></span>
+            ${def.label}
+          </span>
+          <span class="stat-value">${counts[k]}</span>
+        </div>
+      `).join('')}
+    </div>
+
+    ${upcoming.length > 0 ? `
+      <div class="stat-card">
+        <div class="stat-card-title">Ближайшие дедлайны</div>
+        ${upcoming.map(t => {
+          let cls = 'deadline-ok';
+          let txt = `через ${t.days} дн.`;
+          if (t.days < 0) { cls = 'deadline-overdue'; txt = `${Math.abs(t.days)} дн. назад`; }
+          else if (t.days === 0) { cls = 'deadline-soon'; txt = 'сегодня'; }
+          else if (t.days <= 3) { cls = 'deadline-soon'; }
+          return `
+            <div class="stat-row">
+              <span class="stat-label" style="font-size: 13px; color: var(--text-primary); max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(t.company)}</span>
+              <span class="deadline-badge ${cls}">${txt}</span>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    ` : ''}
+  `;
+}
+
+/* =================================================================
+   ИМПОРТ / ЭКСПОРТ JSON
+   ================================================================= */
+function exportData() {
+  const data = {
+    vacancies: state.vacancies,
+    tests: state.tests,
+    exportedAt: new Date().toISOString(),
+    version: 1
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `design-tracker-${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Данные экспортированы', 'success');
+}
+
+function importData(file) {
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if (!parsed.vacancies && !parsed.tests) {
+        throw new Error('Неверная структура файла');
+      }
+      if (!confirm('Импортированные данные заменят текущие. Продолжить?')) return;
+      state.vacancies = Array.isArray(parsed.vacancies) ? parsed.vacancies : [];
+      state.tests = Array.isArray(parsed.tests) ? parsed.tests : [];
+      await saveData();
+      renderAll();
+      toast('Импорт выполнен', 'success');
+    } catch (err) {
+      toast('Ошибка импорта: ' + err.message, 'error');
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* =================================================================
+   ГЛАВНЫЙ РЕНДЕР
+   ================================================================= */
+function renderAll() {
+  renderSubtabs();
+  renderCards();
+  renderSidebar();
+}
+
+/* =================================================================
+   ИНИЦИАЛИЗАЦИЯ
+   ================================================================= */
+async function init() {
+  await loadData();
+
+  // Главные табы
+  document.querySelectorAll('.main-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      state.activeTab = tab.dataset.tab;
+      state.activeFilter = 'all';
+      state.searchQuery = '';
+      document.getElementById('search-input').value = '';
+      renderAll();
+    });
+  });
+
+  // Поиск
+  document.getElementById('search-input').addEventListener('input', (e) => {
+    state.searchQuery = e.target.value;
+    renderCards();
+  });
+
+  // Кнопки
+  document.getElementById('btn-add').addEventListener('click', openAddModal);
+  document.getElementById('btn-export').addEventListener('click', exportData);
+  document.getElementById('btn-import').addEventListener('click', () => {
+    document.getElementById('file-input').click();
+  });
+  document.getElementById('file-input').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) importData(file);
+    e.target.value = '';
+  });
+
+  renderAll();
+
+  console.info(
+    '%cДанные синхронизируются через Firebase. localStorage используется только как резервная копия.',
+    'color: #9b9a97'
+  );
+}
+
+startFirebaseAuth();
+</script>
+
+</body>
+</html>
